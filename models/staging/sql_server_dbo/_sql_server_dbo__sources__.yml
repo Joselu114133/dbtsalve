@@ -1,0 +1,177 @@
+version: 2
+
+sources:
+
+  - name: sql_server_dbo # name of the source 
+    schema: sql_server_dbo  # this is the schema our raw data lives in
+    database: ALUMNO14_DEV_BRONZE_DB # this is the name of our database
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 365, period: day}
+      error_after: {count: 365, period: day}
+
+    tables:
+
+      - name: promos 
+        loaded_at_field: _fivetran_synced
+        description: descuentos y promociones 
+        columns:
+          - name: PROMO_ID 
+            description: clave primaria de la tabla promos identificador unico
+            tests:
+              - unique
+              - not_null
+              
+            
+          - name: DISCOUNT 
+            
+            description: numero que le restamos al precio inicial 
+            
+          - name: STATUS 
+            
+            description: estado de la promo  activada o desactivada
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['active','innactive']
+          - name: _FIVETRAN_DELETED
+            data_type: boolean
+            description: demuestra si se ha borrado y con este campo demuestra si el registro existe en la tabla original
+          - name: _FIVETRAN_SYNCED
+            data_type: TIMESTAMP_TZ
+            description: >
+             ultima sincronizacion de los datos
+
+
+      - name: users
+        loaded_at_field: _fivetran_synced
+        description: >
+         tabla de usuarios 
+        columns:
+          - name: USER_ID 
+            data_type: varchar
+            description: clave unica de la tabla usuarios 
+            tests:
+              - not_null
+              - unique
+          - name: UPDATED_AT 
+            data_type: TIMESTAMP_TZ(9)
+            description: >
+             actualizacion del estado 
+            tests:
+              - not_null
+          - name: ADDRESSES_ID
+            description: >
+             clave foranea de la tabla addresses
+            data_type: varchar
+            tests:
+              - unique
+          - name: LAST_NAME
+            data_type: varchar
+            description: >
+             segundo nombre
+          - name: CREATED_AT
+            data_type: TIMESTAMP_TZ
+            description: >
+             cuando fue creado 
+          - name: PHONE_NUMBER 
+            data_type: varchar
+            description: >
+             numero de telefono asociado al usuario  
+            tests:
+              - unique
+          - name: TOTAL_ORDERS 
+            data_type: number(38,0)
+            description: >
+             numero total de pedidos  
+          - name: FIRST_NAME 
+            data_type: varchar(256)
+          - name: EMAIL 
+            data_type: varchar(256)
+      - name: orders
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: ORDER_ID 
+            data_type: varchar(256)
+          - name: SHIPPING_SERVICE 
+            data_type: varchar(256)
+          - name: SHIPPING_COST 
+            data_type: float
+          - name: ADDRESS_ID 
+            data_type: varchar(256)
+          - name: CREATED_AT
+            data_type: TIMESTAMP_TZ(9) 
+          - name: PROMO_ID 
+            data_type: varchar(256)
+          - name: ESTIMATED_DELIVERY_AT 
+            data_type: TIMESTAMP_TZ(9)
+          - name: ORDER_COST 
+            data_type: float
+          - name: USER_ID
+            data_type: varchar(256)    
+          - name: ORDER_TOTAL
+            data_type: float 
+          - name: DELIVERED_AT
+            data_type: TIMESTAMP_TZ(9) 
+          - name: TRACKING_ID
+            data_type: varchar(256) 
+          - name: STATUS
+            data_type: varchar(256)
+        
+      - name: order_items
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: ORDER_ID
+            data_type: varchar(256) 
+          - name: PRODUCT_ID
+            data_type: varchar(256)
+          - name: QUANTITY
+            data_type: number(38,0)
+      
+      
+      - name: products
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: PRODUCT_ID
+            data_type: varchar(256)
+          - name: PRICE
+            data_type: float
+          - name: NAME
+            data_type: varchar(256)
+          - name: INVENTORY
+            data_type: number(38,0)
+
+      - name: addresses
+        loaded_at_field: _fivetran_synced 
+        columns:
+          - name: ADDRESSES_ID
+            data_type: varchar(256)
+          - name: ZIPCODE 
+            data_type: number(38,0)
+          - name: COUNTRY
+            data_type: varchar(256)
+          - name: ADDRESS
+            data_type: varchar(256)
+          - name: STATE
+            data_type: varchar(256)
+
+      - name: events
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: EVENT_ID  
+            data_type: varchar(1024)
+          - name: PAGE_URL
+            data_type: varchar(1024)
+          - name: EVENT_TYPE
+            data_type: varchar(100)
+          - name: USER_ID
+            data_type: varchar(256)
+          - name: PRODUCT_ID
+            
+          
+          

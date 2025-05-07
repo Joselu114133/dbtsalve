@@ -12,16 +12,20 @@ sources:
       identifier: false
 
     freshness:
-      warn_after: {count: 24, period: hour}
-      error_after: {count: 48, period: hour}
+      warn_after: {count: 365, period: day}
+      error_after: {count: 365, period: day}
 
     tables:
 
       - name: budget
         loaded_at_field: _fivetran_synced
+        description: >
+         ventas esperadas de cada producto 
         columns:
-          - name: _row
           - name: product_id
+            tests:
+              - unique
+              - not_null  
           - name: quantity
           - name: month
           - name: _fivetran_synced
