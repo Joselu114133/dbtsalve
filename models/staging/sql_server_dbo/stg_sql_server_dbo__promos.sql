@@ -19,8 +19,8 @@ WITH promitos AS (
         'noparty' AS PROMO_ID,
         0 AS DISCOUNT,
         'inactive' AS STATUS,
-        CAST(NULL AS BOOLEAN) AS _FIVETRAN_DELETED,  -- aseguras el tipo
-        CURRENT_TIMESTAMP AS _FIVETRAN_SYNCED         -- o un valor similar
+        CAST(NULL AS BOOLEAN) AS _FIVETRAN_DELETED,
+        CURRENT_TIMESTAMP AS _FIVETRAN_SYNCED
 ),
 
 promos AS (
@@ -33,6 +33,4 @@ promos AS (
     FROM promitos
 )
 
-SELECT * FROM promos;
-
-
+SELECT * FROM promos

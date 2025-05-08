@@ -171,8 +171,11 @@ models:
          precio del producto en si 
       - name: NAME
         data_type: varchar
+        description: >
+         nombre del producto
       - name: INVENTORY
-        data_type: number(38,0)
+        data_type: number
+        description: cantidad en el inventario 
 
   - name: addresses
 

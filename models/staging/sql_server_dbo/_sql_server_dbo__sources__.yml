@@ -4,7 +4,7 @@ sources:
 
   - name: sql_server_dbo # name of the source 
     schema: sql_server_dbo  # this is the schema our raw data lives in
-    database: ALUMNO14_DEV_BRONZE_DB # this is the name of our database
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" 
 
     quoting:
       database: false
@@ -39,13 +39,17 @@ sources:
               - not_null
               - accepted_values:
                   values: ['active','innactive']
-          - name: _FIVETRAN_DELETED
-            data_type: boolean
-            description: demuestra si se ha borrado y con este campo demuestra si el registro existe en la tabla original
           - name: _FIVETRAN_SYNCED
             data_type: TIMESTAMP_TZ
             description: >
              ultima sincronizacion de los datos
+          
+          
+          
+          - name: _FIVETRAN_DELETED
+            data_type: boolean
+            description: demuestra si se ha borrado y con este campo demuestra si el registro existe en la tabla original
+         
 
 
       - name: users
