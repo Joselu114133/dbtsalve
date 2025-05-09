@@ -26,7 +26,8 @@ WITH promitos AS (
 
 promos AS (
     SELECT 
-        PROMO_ID,
+        {{ dbt_utils.surrogate_key(['promo_id']) }} AS promo_id,  -- surrogate key
+        PROMO_ID AS promo_desc,
         DISCOUNT,
         STATUS,
         _FIVETRAN_DELETED,
