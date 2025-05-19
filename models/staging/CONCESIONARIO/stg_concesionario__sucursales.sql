@@ -2,17 +2,19 @@
 
 WITH base AS (
   SELECT
-    INITCAP(TRIM(nombre)) AS nombre,
-    INITCAP(TRIM(ciudad)) AS ciudad,
-    TRIM(direccion) AS direccion,
+  id_sucursal,
+   nombre,
+  ciudad,
+  direccion,
     telefono
-  FROM {{ ref('ALUMNO14_DEV_BRONZE_DB.CONCESIONARIO.SUCURSALES') }}
+  FROM {{ source('concesionario', 'sucursales')}}
 )
 
 SELECT
-  'S' || LPAD(ROW_NUMBER() OVER (ORDER BY nombre), 3, '0') AS id_sucursal,
-  nombre,
-  ciudad,
-  direccion,
-  telefono
+ {{ dbt_utils.generate_surrogate_key(['id_sucursal']) }} as id_sucursal,   
+    nombre,
+     ciudad,
+   {{ dbt_utils.generate_surrogate_key(['ciudad']) }} AS id_ciudad,
+    TRIM(direccion) AS direccion,
+    telefono
 FROM base

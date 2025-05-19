@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: concesionario_raw
+  - name: concesionario
     schema: concesionario
     database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB"
 

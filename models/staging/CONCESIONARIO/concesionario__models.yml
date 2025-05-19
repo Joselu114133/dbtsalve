@@ -7,6 +7,8 @@ models:
       - name: id_cliente
         data_type: varchar
         description: Identificador único del cliente
+        constraints:
+          - type: primary_key
         tests:
           - not_null
           - unique
@@ -40,15 +42,24 @@ models:
       - name: id_vendedor
         data_type: varchar
         description: Identificador único del vendedor
+        constraints:
+          - type: primary_key
         tests:
           - not_null
           - unique
       - name: nombre
         data_type: varchar
         description: Nombre del vendedor
-      - name: sucursal
-        data_type: varchar
-        description: Ciudad de la sucursal en la que trabaja
+      - name: id_ciudad
+        description: ciudad de la sucursal
+        constraints:
+          - type: foreign_key
+            to: ref('stg_concesionario__sucursales') 
+            to_colums: [id_ciudad]
+        tests:
+          - relationships:
+              to: ref('stg_concesionario__sucursales')
+              field: id_ciudad
       - name: antiguedad_meses
         data_type: integer
         description: Antigüedad del vendedor en meses
@@ -93,6 +104,8 @@ models:
       - name: id_sucursal
         data_type: varchar
         description: Identificador único de la sucursal
+        constraints:
+          - type: primary_key
         tests:
           - not_null
           - unique
@@ -102,6 +115,8 @@ models:
       - name: ciudad
         data_type: varchar
         description: Ciudad en la que se encuentra la sucursal
+      - name: id_ciudad
+        description: id a partir de la ciudad en la que se encuentra
       - name: direccion
         data_type: varchar
         description: Dirección postal completa
