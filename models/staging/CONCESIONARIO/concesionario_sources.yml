@@ -1,0 +1,121 @@
+version: 2
+
+sources:
+  - name: concesionario_raw
+    schema: concesionario
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB"
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 365, period: day}
+      error_after: {count: 365, period: day}
+
+    tables:
+      - name: clientes
+        description: Datos originales de clientes del concesionario
+        columns:
+          - name: id_cliente
+            description: Identificador único del cliente
+            tests:
+              - not_null
+              - unique
+          - name: nombre_completo
+            description: Nombre completo del cliente
+          - name: email
+            description: Dirección de correo electrónico
+            tests:
+              - unique
+          - name: telefono
+            description: Número de teléfono
+          - name: fecha_registro
+            description: Fecha de registro
+          - name: genero
+            description: Género del cliente
+          - name: edad
+            description: Edad del cliente
+          - name: ciudad
+            description: Ciudad de residencia
+
+      - name: vendedores
+        description: Datos de los vendedores de las sucursales
+        columns:
+          - name: id_vendedor
+            description: Identificador único del vendedor
+            tests:
+              - not_null
+              - unique
+          - name: nombre
+            description: Nombre completo del vendedor
+          - name: sucursal
+            description: Ciudad de la sucursal en la que trabaja
+          - name: antiguedad_meses
+            description: Antigüedad del vendedor en meses
+          - name: comision_por_venta
+            description: Porcentaje de comisión por venta
+
+      - name: vehiculos
+        description: Información de los vehículos disponibles o vendidos
+        columns:
+          - name: id_vehiculo
+            description: Identificador único del vehículo
+            tests:
+              - not_null
+              - unique
+          - name: marca
+            description: Marca del vehículo
+          - name: modelo
+            description: Modelo del vehículo
+          - name: año
+            description: Año de fabricación
+          - name: tipo
+            description: Tipo del vehículo (SUV, Sedán, etc.)
+          - name: combustible
+            description: Tipo de combustible
+          - name: precio_lista
+            description: Precio base del vehículo
+          - name: estado
+            description: Estado del vehículo (nuevo/usado)
+
+      - name: sucursales
+        description: Listado de sucursales del concesionario
+        columns:
+          - name: id_sucursal
+            description: Identificador único de la sucursal
+            tests:
+              - not_null
+              - unique
+          - name: nombre
+            description: Nombre comercial de la sucursal
+          - name: ciudad
+            description: Ciudad donde está ubicada
+          - name: direccion
+            description: Dirección completa
+          - name: telefono
+            description: Teléfono de contacto
+
+      - name: ventas
+        description: Registro de todas las ventas realizadas
+        columns:
+          - name: id_venta
+            description: Identificador único de la venta
+            tests:
+              - not_null
+              - unique
+          - name: id_cliente
+            description: Clave foránea que referencia a clientes
+          - name: id_vehiculo
+            description: Clave foránea que referencia a vehículos
+          - name: id_vendedor
+            description: Clave foránea que referencia a vendedores
+          - name: fecha_venta
+            description: Fecha en que se realizó la venta
+          - name: precio_final
+            description: Precio pagado por el cliente
+          - name: metodo_pago
+            description: Método de pago (contado, crédito, leasing)
+          - name: sucursal
+            description: Ciudad/sucursal donde se realizó la venta

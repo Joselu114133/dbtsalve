@@ -1,0 +1,141 @@
+version: 2
+
+models:
+  - name: clientes
+    description: Datos personales y demográficos de los clientes del concesionario
+    columns:
+      - name: id_cliente
+        data_type: varchar
+        description: Identificador único del cliente
+        tests:
+          - not_null
+          - unique
+      - name: nombre_completo
+        data_type: varchar
+        description: Nombre completo del cliente
+      - name: email
+        data_type: varchar
+        description: Correo electrónico del cliente
+        tests:
+          - unique
+      - name: telefono
+        data_type: varchar
+        description: Número de teléfono
+      - name: fecha_registro
+        data_type: date
+        description: Fecha en que se registró el cliente
+      - name: genero
+        data_type: varchar
+        description: Género del cliente
+      - name: edad
+        data_type: integer
+        description: Edad del cliente
+      - name: ciudad
+        data_type: varchar
+        description: Ciudad del cliente
+
+  - name: vendedores
+    description: Información de los vendedores de todas las sucursales
+    columns:
+      - name: id_vendedor
+        data_type: varchar
+        description: Identificador único del vendedor
+        tests:
+          - not_null
+          - unique
+      - name: nombre
+        data_type: varchar
+        description: Nombre del vendedor
+      - name: sucursal
+        data_type: varchar
+        description: Ciudad de la sucursal en la que trabaja
+      - name: antiguedad_meses
+        data_type: integer
+        description: Antigüedad del vendedor en meses
+      - name: comision_por_venta
+        data_type: float
+        description: Porcentaje de comisión que recibe por venta
+
+  - name: vehiculos
+    description: Detalle del inventario de vehículos (vendidos y en stock)
+    columns:
+      - name: id_vehiculo
+        data_type: varchar
+        description: Identificador único del vehículo
+        tests:
+          - not_null
+          - unique
+      - name: marca
+        data_type: varchar
+        description: Marca del vehículo
+      - name: modelo
+        data_type: varchar
+        description: Modelo del vehículo
+      - name: año
+        data_type: integer
+        description: Año de fabricación
+      - name: tipo
+        data_type: varchar
+        description: Tipo de vehículo (SUV, Berlina, Hatchback...)
+      - name: combustible
+        data_type: varchar
+        description: Tipo de combustible (gasolina, diésel, híbrido...)
+      - name: precio_lista
+        data_type: float
+        description: Precio base del vehículo sin descuentos
+      - name: estado
+        data_type: varchar
+        description: Estado del vehículo (nuevo o usado)
+
+  - name: sucursales
+    description: Información de cada sucursal del concesionario
+    columns:
+      - name: id_sucursal
+        data_type: varchar
+        description: Identificador único de la sucursal
+        tests:
+          - not_null
+          - unique
+      - name: nombre
+        data_type: varchar
+        description: Nombre comercial de la sucursal
+      - name: ciudad
+        data_type: varchar
+        description: Ciudad en la que se encuentra la sucursal
+      - name: direccion
+        data_type: varchar
+        description: Dirección postal completa
+      - name: telefono
+        data_type: varchar
+        description: Teléfono de contacto de la sucursal
+
+  - name: ventas
+    description: Registro de todas las ventas realizadas por el concesionario
+    columns:
+      - name: id_venta
+        data_type: integer
+        description: Identificador único de la venta
+        tests:
+          - not_null
+          - unique
+      - name: id_cliente
+        data_type: varchar
+        description: Clave foránea que relaciona la venta con el cliente
+      - name: id_vehiculo
+        data_type: varchar
+        description: Clave foránea que relaciona la venta con el vehículo
+      - name: id_vendedor
+        data_type: varchar
+        description: Clave foránea que relaciona la venta con el vendedor
+      - name: fecha_venta
+        data_type: date
+        description: Fecha en que se realizó la venta
+      - name: precio_final
+        data_type: float
+        description: Precio final pagado por el cliente
+      - name: metodo_pago
+        data_type: varchar
+        description: Método de pago utilizado (contado, crédito, leasing)
+      - name: sucursal
+        data_type: varchar
+        description: Ciudad/sucursal en la que se realizó la venta
