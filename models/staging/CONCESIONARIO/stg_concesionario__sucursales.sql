@@ -2,7 +2,6 @@
 
 WITH base AS (
   SELECT
-  id_sucursal,
    nombre,
   ciudad,
   direccion,
@@ -10,8 +9,7 @@ WITH base AS (
   FROM {{ source('concesionario', 'sucursales')}}
 )
 
-SELECT
- {{ dbt_utils.generate_surrogate_key(['id_sucursal']) }} as id_sucursal,   
+SELECT  
     nombre,
      ciudad,
    {{ dbt_utils.generate_surrogate_key(['ciudad']) }} AS id_ciudad,
