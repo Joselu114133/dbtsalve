@@ -43,4 +43,9 @@ models:
    
   seeds:
     +database: ALUMNO14_DEV_BRONZE_DB
-    +schema: SEEDS
+    +schema: CONCESIONARIO
+  stagging:
+    +database: ALUMNO14_DEV_SILVER_DB
+  marts:
+    +database: ALUMNO14_DEV_GOLD_DB
+   

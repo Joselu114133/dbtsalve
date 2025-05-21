@@ -1,0 +1,158 @@
+version: 2
+
+models:
+  - name: dim_cliente
+    description: Datos personales y demográficos de los clientes del concesionario
+    columns:
+      - name: id_cliente
+        data_type: varchar
+        description: Identificador único del cliente
+        constraints:
+          - type: primary_key
+        tests:
+          - unique
+      - name: nombre_completo
+        data_type: varchar
+        description: Nombre completo del cliente
+      - name: email
+        data_type: varchar
+        description: Correo electrónico del cliente
+        tests:
+          - unique
+      - name: telefono
+        data_type: varchar
+        description: Número de teléfono del cliente
+      - name: fecha_registro
+        data_type: date
+        description: Fecha en la que el cliente fue registrado
+      - name: ciudad
+        data_type: varchar
+        description: Ciudad del cliente
+
+  - name: fact_ventas
+    description: Tabla de hechos de ventas (modelo estrella). Cada fila representa una venta realizada en el concesionario, incluyendo referencias a cliente, vehículo, vendedor y sucursal.
+    columns:
+      - name: id_venta
+        data_type: integer
+        description: Identificador único de la venta
+        constraints:
+          - type: primary_key
+        tests:
+          - unique
+          
+
+      - name: fecha_venta
+        data_type: date
+        description: Fecha en la que se realizó la venta
+        tests:
+          - not_null
+
+      - name: id_cliente
+        data_type: varchar
+        description: Identificador del cliente que realizó la compra
+        constraints:
+          - type: foreign_key
+            to: ref('dim_cliente')
+            to_columns: [id_cliente]
+       
+
+      - name: id_vehiculo
+        data_type: varchar
+        description: Identificador del vehículo vendido
+        constraints:
+          - type: foreign_key
+            to: ref('dim_vehiculo')
+            to_columns: [id_vehiculo]
+       
+
+      - name: id_vendedor
+        data_type: varchar
+        description: Identificador del vendedor que realizó la venta
+        constraints:
+          - type: foreign_key
+            to: ref('dim_vendedor')
+            to_columns: [id_vendedor]
+     
+      - name: id_sucursal
+        data_type: varchar
+        description: Identificador de la sucursal donde se realizó la venta
+        constraints:
+          - type: foreign_key
+            to: ref('dim_sucursal')
+            to_columns: [id_sucursal]
+        
+
+      - name: precio
+        data_type: float
+        description: Precio final de venta del vehículo (impuestos incluidos)
+
+      - name: metodo_pago
+        data_type: varchar
+        description: Método de pago utilizado en la venta (efectivo, financiación, etc.)
+  - name: dim_vehiculo
+    columns:
+    - name: id_vehiculo
+      data_type: varchar
+      description: Identificador único del vehículo en stock
+      constraints:
+        - type: primary_key
+    - name: marca
+      data_type: varchar
+      description: Marca del vehículo
+    - name: modelo
+      data_type: varchar
+      description: Modelo del vehículo
+    - name: ano_fabricacion
+      data_type: integer
+      description: Año de fabricación del modelo del vehículo
+    - name: tipo
+      data_type: varchar
+      description: Tipo de vehículo (SUV, Berlina, etc.)
+    - name: combustible
+      data_type: varchar
+      description: Tipo de combustible del vehículo
+    - name: precio_lista
+      data_type: float
+      description: Precio base del vehículo en stock
+    - name: estado
+      data_type: varchar
+      description: Estado del vehículo (nuevo o usado) 
+  - name: dim_vendedor
+    columns:
+    - name: id_vendedor
+      data_type: varchar
+      description: Identificador único del vendedor
+      constraints:
+        - type: primary_key
+      tests:
+        - unique
+    - name: nombre
+      data_type: varchar
+      description: Nombre completo del vendedor
+    - name: antiguedad_meses
+      data_type: integer
+      description: Antigüedad del vendedor en meses
+    - name: comision_por_venta
+      data_type: float
+      description: Porcentaje de comisión que recibe por cada venta
+  - name: dim_sucursal
+    columns:
+    - name: id_sucursal
+      data_type: varchar
+      description: Identificador único de la sucursal
+      constraints:
+        - type: primary_key
+      tests:
+        - unique
+    - name: nombre
+      data_type: varchar
+      description: Nombre comercial de la sucursal
+    - name: ciudad
+      data_type: varchar
+      description: Ciudad en la que se encuentra la sucursal
+    - name: direccion
+      data_type: varchar
+      description: Dirección postal completa
+    - name: telefono
+      data_type: varchar
+      description: Teléfono de contacto de la sucursal
