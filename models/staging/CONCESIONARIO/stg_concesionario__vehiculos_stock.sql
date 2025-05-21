@@ -23,7 +23,7 @@ modelos AS (
 )
 
 SELECT
-    s.id_vehiculo,
+  {{ dbt_utils.generate_surrogate_key(['s.id_vehiculo']) }} as id_vehiculo,
     m.id_modelo,
     s.precio_lista,
     s.estado

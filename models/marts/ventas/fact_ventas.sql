@@ -4,11 +4,11 @@
 {{ config(schema='ventas') }}
 
 SELECT
-    id_venta,        -- surrogate key de la venta (cliente + vehiculo)
-    id_cliente,      -- clave de la dimensión cliente
-    id_vehiculo,     -- clave de la dimensión vehículo
-    id_vendedor,     -- clave de la dimensión vendedor
-    id_ciudad as id_sucursal,       -- clave de la dimensión sucursal/ciudad
+    id_venta,        
+    id_cliente,     
+    id_vehiculo,     
+    id_vendedor,     
+    id_ciudad as id_sucursal,       --
     fecha_venta,
     precio_final,
     metodo_pago

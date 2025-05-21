@@ -8,5 +8,5 @@ SELECT
     id_vendedor,
     nombre,
     antiguedad_meses,
-    comision_por_venta
+   
 FROM {{ ref('stg_concesionario__vendedores') }}
