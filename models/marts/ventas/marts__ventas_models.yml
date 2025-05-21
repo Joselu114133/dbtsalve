@@ -132,9 +132,6 @@ models:
     - name: antiguedad_meses
       data_type: integer
       description: Antigüedad del vendedor en meses
-    - name: comision_por_venta
-      data_type: float
-      description: Porcentaje de comisión que recibe por cada venta
   - name: dim_sucursal
     columns:
     - name: id_sucursal
@@ -156,3 +153,50 @@ models:
     - name: telefono
       data_type: varchar
       description: Teléfono de contacto de la sucursal
+  - name: ventas_por_vendedor
+    description: "Agrega las ventas totales, importe y fechas relevantes por vendedor."
+    columns:
+      - name: id_vendedor
+        description: "Identificador único del vendedor"
+      - name: nombre
+        description: "Nombre del vendedor"
+        tests:
+          - not_null
+      - name: total_ventas
+        description: "Cantidad total de ventas realizadas"
+      - name: total_facturado
+        description: "Importe total facturado por el vendedor"
+      - name: primera_venta
+        description: "Fecha de la primera venta"
+      - name: ultima_venta
+        description: "Fecha de la última venta"
+  - name: ventas_por_sucursal
+    columns:
+      - name: id_ciudad
+        description: "Identificador único de la sucursal/ciudad"
+      - name: nombre_sucursal
+        description: "Nombre de la sucursal"
+      - name: total_ventas
+        description: "Cantidad total de ventas realizadas en la sucursal"
+      - name: total_facturado
+        description: "Importe total facturado en la sucursal"
+      - name: primera_venta
+        description: "Fecha de la primera venta en la sucursal"
+      - name: ultima_venta
+        description: "Fecha de la última venta en la sucursal"
+  - name: ventas_por_modelo_coche
+    columns:
+    - name: id_vehiculo
+      description: "Identificador único del modelo de vehículo"
+    - name: modelo_coche
+      description: "Nombre del modelo del coche"
+    - name: marca_coche
+      description: "Marca del coche"
+    - name: total_ventas
+      description: "Cantidad total de ventas realizadas para el modelo"
+    - name: total_facturado
+      description: "Importe total facturado por modelo"
+    - name: primera_venta
+      description: "Fecha de la primera venta del modelo"
+    - name: ultima_venta
+      description: "Fecha de la última venta del modelo"

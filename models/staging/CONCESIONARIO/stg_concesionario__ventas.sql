@@ -19,9 +19,9 @@ sucursales AS (
 
 SELECT
     {{ dbt_utils.generate_surrogate_key(['v.id_cliente','v.id_vehiculo']) }} as id_venta,
-  v.id_cliente,
-  v.id_vehiculo,
-  v.id_vendedor,
+   {{ dbt_utils.generate_surrogate_key(['v.id_cliente']) }} as id_cliente,
+   {{ dbt_utils.generate_surrogate_key(['v.id_vehiculo']) }} as id_vehiculo ,
+  {{ dbt_utils.generate_surrogate_key(['v.id_vendedor']) }} as id_vendedor,
   s.id_ciudad,
   v.fecha_venta,
   v.precio_final,
